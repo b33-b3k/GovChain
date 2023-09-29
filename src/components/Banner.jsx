@@ -1,54 +1,54 @@
-import { useState } from 'react'
-import { useGlobalState, setGlobalState } from '../store'
-import { toast } from 'react-toastify'
-import { performContribute } from '../Blockchain.services'
+import { useState } from "react";
+import { useGlobalState, setGlobalState } from "../store";
+import { toast } from "react-toastify";
+import { performContribute } from "../Blockchain.services";
 
 const Banner = () => {
-  const [isStakeholder] = useGlobalState('isStakeholder')
-  const [proposals] = useGlobalState('proposals')
-  const [balance] = useGlobalState('balance')
-  const [mybalance] = useGlobalState('mybalance')
-  const [amount, setAmount] = useState('')
+  const [isStakeholder] = useGlobalState("isStakeholder");
+  const [proposals] = useGlobalState("proposals");
+  const [balance] = useGlobalState("balance");
+  const [mybalance] = useGlobalState("mybalance");
+  const [amount, setAmount] = useState("");
 
   const onPropose = () => {
-    if (!isStakeholder) return
-    setGlobalState('createModal', 'scale-100')
-  }
+    if (!isStakeholder) return;
+    setGlobalState("createModal", "scale-100");
+  };
 
   const onContribute = async () => {
-    if (!!!amount || amount == '') return
-    await performContribute(amount)
-    toast.success('Contribution received')
-  }
+    if (!!!amount || amount == "") return;
+    await performContribute(amount);
+    toast.success("Contribution received");
+  };
 
   const opened = () =>
     proposals.filter(
-      (proposal) => new Date().getTime() < Number(proposal.duration + '000'),
-    ).length
+      (proposal) => new Date().getTime() < Number(proposal.duration + "000")
+    ).length;
 
   return (
-    <div className="p-8">
+    <div id="proposals" className="p-5 text-center shadow-md  w-[50%] mx-auto">
       <h2 className="font-semibold text-3xl mb-5">
-        {opened()} Proposal{opened() == 1 ? '' : 's'} Currently Opened
+        {opened()} Proposal{opened() == 1 ? "" : "s"}
       </h2>
       <p>
-        Current DAO Balance: <strong>{balance} Eth</strong> <br />
-        Your contributions:{' '}
+        Your balance <strong>{balance} Eth</strong> <br />
+        Your contributions:{" "}
         <span>
           <strong>{mybalance} Eth</strong>
-          {isStakeholder ? ', and you are now a stakeholder 😊' : null}
+          {isStakeholder ? ", and you are now a stakeholder 😊" : null}
         </span>
       </p>
       <hr className="my-6 border-gray-300 dark:border-gray-500" />
       <p>
         {isStakeholder
-          ? 'You can now raise proposals on this platform 😆'
-          : 'Hey, when you contribute upto 1 ether you become a stakeholder 😎'}
+          ? "You can now raise proposals on this platform 😆"
+          : "Hey, when you contribute upto 1 ether you will become a stakeholder 😎"}
       </p>
-      <div className="flex flex-row justify-start items-center md:w-1/3 w-full mt-4">
+      <div className="mx-auto md:w-1/3 w-full mt-4">
         <input
           type="number"
-          className="form-control block w-full px-3 py-1.5
+          className="form-control  block w-full px-3 py-1.5
           text-base font-normaltext-gray-700
           bg-clip-padding border border-solid border-gray-300
           rounded transition ease-in-out m-0 shadow-md
@@ -61,7 +61,7 @@ const Banner = () => {
         />
       </div>
       <div
-        className="flex flex-row justify-start items-center space-x-3 mt-4"
+        className="flex flex-row justify-center items-center space-x-3 mt-4"
         role="group"
       >
         <button
@@ -101,7 +101,7 @@ const Banner = () => {
         ) : null}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Banner
+export default Banner;
