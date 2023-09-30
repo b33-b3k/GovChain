@@ -32,7 +32,7 @@ const Banner = () => {
         {opened()} Proposal{opened() == 1 ? "" : "s"}
       </h2>
       <p>
-        Your balance <strong>{balance} Eth</strong> <br />
+        {/* Your balance <strong>{balance} Eth</strong> <br /> */}
         Your contributions:{" "}
         <span>
           <strong>{mybalance} Eth</strong>

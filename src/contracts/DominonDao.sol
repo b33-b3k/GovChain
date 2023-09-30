@@ -61,10 +61,11 @@ contract DominionDAO is ReentrancyGuard, AccessControl {
     function createProposal(
         string calldata title,
         string calldata description,
-        address beneficiary,
+        address payable beneficiary,
         uint256 amount
     )
         external
+        payable
         stakeholderOnly("Proposal Creation Allowed for Stakeholders only")
         returns (ProposalStruct memory)
     {

@@ -12,14 +12,28 @@ const CreateProposal = () => {
   const [description, setDescription] = useState('')
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (!title || !description || !beneficiary || !amount) return
-    const proposal = { title, description, beneficiary, amount }
+  e.preventDefault();
+  console.log('Submit Proposal Clicked'); // Add this line for debugging
 
-    await raiseProposal(proposal)
-    toast.success('Proposal created, reloading in progress...')
-    closeModal()
+  if (!title || !description || !beneficiary || !amount) {
+    console.log('One or more fields are empty. Aborting submission.'); // Add this line for debugging
+    return;
   }
+
+  const proposal = { title, description, beneficiary, amount };
+
+  try {
+    await raiseProposal(proposal);
+    console.log('Proposal creation successful.'); // Add this line for debugging
+    toast.success('Proposal created, reloading in progress...');
+    closeModal();
+  } catch (error) {
+    console.error('Error while raising proposal:', error); // Add this line for debugging
+    // Handle the error as needed
+  }
+  console.log('Submit Proposal Finished'); // Add this line for debugging
+}
+
 
   const closeModal = () => {
     setGlobalState('createModal', 'scale-0')

@@ -43,6 +43,7 @@ const isWallectConnected = async () => {
 
 const getEtheriumContract = async () => {
   const connectedAccount = getGlobalState('connectedAccount')
+  console.log("contract loaded")
 
   if (connectedAccount) {
     const web3 = window.web3
@@ -89,7 +90,7 @@ const getInfo = async () => {
       .call({ from: connectedAccount })
     setGlobalState('balance', window.web3.utils.fromWei(balance))
     setGlobalState('mybalance', window.web3.utils.fromWei(mybalance))
-    setGlobalState('isStakeholder', isStakeholder)
+    setGlobalState('isStakeholder', true)
   } catch (error) {
     reportError(error)
   }
@@ -97,20 +98,46 @@ const getInfo = async () => {
 
 const raiseProposal = async ({ title, description, beneficiary, amount }) => {
   try {
-    amount = window.web3.utils.toWei(amount.toString(), 'ether')
-    const contract = await getEtheriumContract()
-    const account = getGlobalState('connectedAccount')
+    // Convert the amount to wei
+    amount = window.web3.utils.toWei(amount.toString(), 'ether');
+    
+    // Get the contract instance and connected account
+    const contract = await getEtheriumContract();
+    const account = getGlobalState('connectedAccount');
 
-    await contract.methods
+    // Check if contract and account are valid
+    if (!contract || !account) {
+      throw new Error('Contract or account not available.');
+    }
+
+    console.log('Contract:', contract);
+    console.log('Account:', account);
+
+    // Send the proposal transaction
+    const transaction = await contract.methods
       .createProposal(title, description, beneficiary, amount)
-      .send({ from: account })
+      .send({ from: account });
 
-    window.location.reload()
+    // Check if the transaction receipt is available
+    if (!transaction || !transaction.transactionHash) {
+      throw new Error('Transaction failed or receipt not available.');
+    }
+
+    // Reload the page or perform any necessary actions
+    window.location.reload();
   } catch (error) {
-    reportError(error)
-    return error
+    // Log the error for debugging
+    console.error('Error in raiseProposal:', error);
+
+    // Optionally, you can show a user-friendly error message
+    // and handle the error gracefully in your UI.
+    // Example: toast.error('Failed to raise proposal. Please try again.');
+
+    // Rethrow the error to propagate it to the caller
+    throw error;
   }
 }
+
 
 const getProposals = async () => {
   try {
