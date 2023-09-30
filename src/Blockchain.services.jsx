@@ -2,9 +2,13 @@ import Web3 from 'web3'
 import { setGlobalState, getGlobalState } from './store'
 import abi from './abis/DominionDAO.json'
 
+
 const { ethereum } = window
 window.web3 = new Web3(ethereum)
 window.web3 = new Web3(window.web3.currentProvider)
+
+
+
 
 const connectWallet = async () => {
   try {
@@ -16,7 +20,7 @@ const connectWallet = async () => {
   }
 }
 
-const isWallectConnected = async () => {
+const isWalletConnected = async () => {
   try {
     if (!ethereum) return alert('Please install Metamask')
     const accounts = await ethereum.request({ method: 'eth_accounts' })
@@ -27,7 +31,7 @@ const isWallectConnected = async () => {
 
     window.ethereum.on('accountsChanged', async () => {
       setGlobalState('connectedAccount', accounts[0].toLowerCase())
-      await isWallectConnected()
+      await isWalletConnected()
     })
 
     if (accounts.length) {
@@ -220,7 +224,7 @@ const reportError = (error) => {
 }
 
 export {
-  isWallectConnected,
+  isWalletConnected,
   connectWallet,
   performContribute,
   getInfo,

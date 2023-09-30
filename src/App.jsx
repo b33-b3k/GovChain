@@ -2,19 +2,22 @@ import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
+
 import {
   getInfo,
   getProposals,
-  isWallectConnected,
+  isWalletConnected,
 } from './Blockchain.services'
 import Header from './components/Header'
 import Home from './views/Home'
 import Proposal from './views/Proposal'
+// import BudgetAllocationForm from './components/BudgetAllocation'
+import BudgetAllocationApp from './components/BudgetAllocation'
 
 const App = () => {
   const [loaded, setLoaded] = useState(false)
   useEffect(async () => {
-    await isWallectConnected()
+    await isWalletConnected()
      getInfo()
      getProposals()
     setLoaded(true)
@@ -43,6 +46,11 @@ const App = () => {
       />
     </div>
   )
+  // return (
+  //   <div>
+  //     <BudgetAllocationApp/>
+  //   </div>
+  // )
 }
 
 export default App
