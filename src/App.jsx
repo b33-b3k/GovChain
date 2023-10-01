@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.min.css'
 import {
   getInfo,
   getProposals,
-  isWallectConnected,
+  isWalletConnected,
 } from './Blockchain.services'
 // import Header from './components/Header'
 import Home from './views/Home'
@@ -16,7 +16,7 @@ import Budget from './views/Budget'
 const App = () => {
   const [loaded, setLoaded] = useState(false)
   useEffect(async () => {
-    await isWallectConnected()
+    await isWalletConnected()
      getInfo()
      getProposals()
     setLoaded(true)

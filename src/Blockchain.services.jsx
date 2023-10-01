@@ -94,7 +94,10 @@ const getInfo = async () => {
       .call({ from: connectedAccount })
     setGlobalState('balance', window.web3.utils.fromWei(balance))
     setGlobalState('mybalance', window.web3.utils.fromWei(mybalance))
-    setGlobalState('isStakeholder', true)
+    setGlobalState('isStakeholder', 
+      isStakeholder
+    
+    )
   } catch (error) {
     reportError(error)
   }
